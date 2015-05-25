@@ -3,12 +3,8 @@ FROM ruby:2.0.0
 ENV SOURCE_DIR /icosmith
 ENV EXPOSED_PORT 3000
 
-RUN mkdir -p $SOURCE_DIR
-
-WORKDIR $SOURCE_DIR
-
 RUN apt-get update && \
-  apt-get install -y build-essential fontforge libfreetype6-dev && \
+  apt-get install -y build-essential fontforge libfreetype6-dev git && \
   rm -rf /var/lib/apt/lists/*
 
 # ttf2eot build
@@ -30,13 +26,21 @@ RUN cd /build && \
   make && \
   make install
 
+# Icosmith build
+RUN mkdir -p $SOURCE_DIR
+WORKDIR $SOURCE_DIR
+
+RUN cd $SOURCE_DIR && \
+  git clone https://github.com/tulios/icosmith . && \
+  bundle install
+
 EXPOSE $EXPOSED_PORT
 
-ADD Gemfile Gemfile
-ADD Gemfile.lock Gemfile.lock
+#ADD Gemfile Gemfile
+#ADD Gemfile.lock Gemfile.lock
 
-RUN bundle
-ADD . $SOURCE_DIR
+#RUN bundle
+#ADD . $SOURCE_DIR
 
 CMD ["server"]
 ENTRYPOINT ["bundle", "exec", "rails"]
