@@ -8,7 +8,7 @@ RUN mkdir -p $SOURCE_DIR
 WORKDIR $SOURCE_DIR
 
 RUN apt-get update
-RUN apt-get install -y fontforge ttfautohint
+RUN apt-get install -y build-essential fontforge
 RUN rm -rf /var/lib/apt/lists/*
 
 # ttf2eot build
@@ -17,10 +17,9 @@ RUN sed -i.bak "/using std::vector;/ i\#include <cstddef>" /build/ttf2eot-0.0.2-
 RUN cd /build/ttf2eot-0.0.2-2 && make && cp ttf2eot /usr/local/bin/ttf2eot
 
 ## ttfautohint build
-RUN apt-get install -y libqt4-core libqt4-dev libqt4-gui qt4-dev-tools
 RUN apt-get install -y libfreetype6-dev
-RUN cd /build && wget http://downloads.sourceforge.net/project/freetype/ttfautohint/0.97/ttfautohint-0.97.tar.gz && tar zxvf ttfautohint-0.97.tar.gz
-RUN cd /build/ttfautohint-0.97 && ./configure --without-doc && make install
+RUN cd /build && wget http://downloads.sourceforge.net/project/freetype/ttfautohint/0.95/ttfautohint-0.95.tar.gz && tar zxvf ttfautohint-0.95.tar.gz
+RUN cd /build/ttfautohint-0.95 && ./configure --with-qt=no --without-doc && make && make install
 
 EXPOSE $EXPOSED_PORT
 
