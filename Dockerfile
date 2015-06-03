@@ -1,4 +1,5 @@
 FROM ruby:2.0.0
+MAINTAINER Guilherme Garnier <guilherme.garnier@gmail.com>
 
 ENV SOURCE_DIR /icosmith
 ENV EXPOSED_PORT 3000
@@ -35,12 +36,6 @@ RUN cd $SOURCE_DIR && \
   bundle install
 
 EXPOSE $EXPOSED_PORT
-
-#ADD Gemfile Gemfile
-#ADD Gemfile.lock Gemfile.lock
-
-#RUN bundle
-#ADD . $SOURCE_DIR
 
 CMD ["server"]
 ENTRYPOINT ["bundle", "exec", "rails"]
