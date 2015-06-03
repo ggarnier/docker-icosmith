@@ -37,5 +37,5 @@ RUN cd $SOURCE_DIR && \
 
 EXPOSE $EXPOSED_PORT
 
-CMD ["server"]
-ENTRYPOINT ["bundle", "exec", "rails"]
+CMD ["rails", "server"]
+ENTRYPOINT ["bundle", "exec"]
